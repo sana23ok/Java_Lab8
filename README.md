@@ -1,92 +1,66 @@
-# Automated system
+# РОЗРОБКА КОНСОЛЬНОГО ЗАСТОСКУНКУ ЗА ШАБЛОНОМ MVC
 
 
 
-## Getting started
+## МЕТА:
 
-To make it easy for you to get started with GitLab, here's a list of recommended next steps.
+навчитися будувати консольний застосунок за архітектурним шаблоном MVC та застосовувати фреймворки реєстрації повідомлень і помилок у мові Java.
 
-Already a pro? Just edit this README.md and make it your own. Want to make it easy? [Use the template at the bottom](#editing-this-readme)!
 
-## Add your files
+## ЗАВДАННЯ
 
-- [ ] [Create](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#create-a-file) or [upload](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#upload-a-file) files
-- [ ] [Add files using the command line](https://docs.gitlab.com/ee/gitlab-basics/add-file.html#add-a-file-using-the-command-line) or push an existing Git repository with the following command:
+Реалізуйте консольний застосунок на мові Java у відповідності до варіанту завдання. Застосунок має бути  побудованим за шаблоном MVC та містити наступні шари:
+* Інтерфейс (класи для отримання запиту (даних) від користувача та виведення результату у консоль)
+* Контролер (клас або класи, що приймають запити від користувача, визначають завдання та звертаються до Моделі за обрахунком результату, який передається до Інтерфейсу для відображення)
+* Модель, яка розподіляється на підшари:
+    - сервіси (класи, які виконують обрахунок запиту користувача)
+    - dao (клас або класи для доступу до сховища даних)
+    - дані (клас або класи, що описують предметну область)  
 
-```
-cd existing_repo
-git remote add origin https://gitlab.com/java-tasks-from-trainers/java/automated-system.git
-git branch -M main
-git push -uf origin main
-```
+Незалежно від варіанта застосунок повинен надавати користувачеві можливість:
+* переглядати весь набір даних;
+* додавати дані;
+* упорядковувати набір даних за будь-якими двома властивостями (тобто сортувати за запропонованими користувачеві атрибутами; вибір властивостей довільний);
+* фільтрувати набір даних за заданими критеріями згідно з варіантом завдання;
+* зберігати дані, що оброблюються застосунком, у файлі;
+* зберігати проміжні результати у файли за бажанням (тобто результат вибірки).  
 
-## Integrate with your tools
+Для зручності демонстрації роботи застосунку інтерфейс має містити меню для вибору дій користувачем.
 
-- [ ] [Set up project integrations](https://gitlab.com/java-tasks-from-trainers/java/automated-system/-/settings/integrations)
+Для моніторингу роботи застосунку забезпечити його системою логування.
 
-## Collaborate with your team
 
-- [ ] [Invite team members and collaborators](https://docs.gitlab.com/ee/user/project/members/)
-- [ ] [Create a new merge request](https://docs.gitlab.com/ee/user/project/merge_requests/creating_merge_requests.html)
-- [ ] [Automatically close issues from merge requests](https://docs.gitlab.com/ee/user/project/issues/managing_issues.html#closing-issues-automatically)
-- [ ] [Enable merge request approvals](https://docs.gitlab.com/ee/user/project/merge_requests/approvals/)
-- [ ] [Automatically merge when pipeline succeeds](https://docs.gitlab.com/ee/user/project/merge_requests/merge_when_pipeline_succeeds.html)
+## ДЕТАЛІ ЩОДО РЕАЛІЗАЦІЇ:
 
-## Test and Deploy
+* відображення набору даних (всього або результату вибірки) повинно бути у табличному вигляді;
+* інтерфейс має бути дружнім до користувача:
+    - меню для вибору дій (наявність дії «Вихід»);
+    - повідомлення із запрошенням, що потрібно ввести; повідомлення щодо результату, що відображається; передбачити відповідне повідомлення у разі відсутності результату вибірки даних;
+    - введення даних для фільтрації (вибірки ) або додавання нових даних
+    - обробка некоректного введення даних
+* при введені помилкових даних (тобто, введене значення не відповідає можливому діапазону або не відповідає необхідному формату), передбачити виведення повідомлення щодо типу помилки та запропонувати повторити введення;
+* перевірку введених даних передбачити у класах-валідаторах (можливе використання регулярних виразів);
+* описати власні типи виключення та застосувати їх при обробці помилок введення даних, використовуючи механізм обробки виключень;
+* логувати всі помилки та дії користувача;
+* дані, для обробки застосунком, зберігати у файлі:
+    - формат може бути текстовим, об’єктним або JSON
+    - при запуску застосунку, дані зчитуються з файлу
+    - при завершені роботи застосунку, дані записуються у файл
+    - проміжні результати зберігаються у файл, вказаний користувачем (назва вводиться з клавіатури)
+* для збереження набору даних у пам’яті використовувати колекції;
+* для обробки колекцій використовувати Streams та лямбда-вирази, де це потрібно.
 
-Use the built-in continuous integration in GitLab.
+## КРИТЕРІЇ ОЦІНЮВАННЯ
+Опис	Бали
+Успішна компіляція	5
+Архітектура застосунку та розподіл функціональності по компонентах	10 - 20
+Повнота реалізації функціональності застосунку	5 – 10
+Повнота виконання вимог щодо реалізації	10 -15
+Коректність налаштування обробки виключень	10 - 15
+Коректність використання колекцій та Streams	5 - 10
+Робота з файлами	10 - 15
+Налаштування системи логування	5 - 10
 
-- [ ] [Get started with GitLab CI/CD](https://docs.gitlab.com/ee/ci/quick_start/index.html)
-- [ ] [Analyze your code for known vulnerabilities with Static Application Security Testing(SAST)](https://docs.gitlab.com/ee/user/application_security/sast/)
-- [ ] [Deploy to Kubernetes, Amazon EC2, or Amazon ECS using Auto Deploy](https://docs.gitlab.com/ee/topics/autodevops/requirements.html)
-- [ ] [Use pull-based deployments for improved Kubernetes management](https://docs.gitlab.com/ee/user/clusters/agent/)
-- [ ] [Set up protected environments](https://docs.gitlab.com/ee/ci/environments/protected_environments.html)
+__Варіант видається викладачем (окремий файл).__
 
-***
 
-# Editing this README
-
-When you're ready to make this README your own, just edit this file and use the handy template below (or feel free to structure it however you want - this is just a starting point!). Thank you to [makeareadme.com](https://www.makeareadme.com/) for this template.
-
-## Suggestions for a good README
-Every project is different, so consider which of these sections apply to yours. The sections used in the template are suggestions for most open source projects. Also keep in mind that while a README can be too long and detailed, too long is better than too short. If you think your README is too long, consider utilizing another form of documentation rather than cutting out information.
-
-## Name
-Choose a self-explaining name for your project.
-
-## Description
-Let people know what your project can do specifically. Provide context and add a link to any reference visitors might be unfamiliar with. A list of Features or a Background subsection can also be added here. If there are alternatives to your project, this is a good place to list differentiating factors.
-
-## Badges
-On some READMEs, you may see small images that convey metadata, such as whether or not all the tests are passing for the project. You can use Shields to add some to your README. Many services also have instructions for adding a badge.
-
-## Visuals
-Depending on what you are making, it can be a good idea to include screenshots or even a video (you'll frequently see GIFs rather than actual videos). Tools like ttygif can help, but check out Asciinema for a more sophisticated method.
-
-## Installation
-Within a particular ecosystem, there may be a common way of installing things, such as using Yarn, NuGet, or Homebrew. However, consider the possibility that whoever is reading your README is a novice and would like more guidance. Listing specific steps helps remove ambiguity and gets people to using your project as quickly as possible. If it only runs in a specific context like a particular programming language version or operating system or has dependencies that have to be installed manually, also add a Requirements subsection.
-
-## Usage
-Use examples liberally, and show the expected output if you can. It's helpful to have inline the smallest example of usage that you can demonstrate, while providing links to more sophisticated examples if they are too long to reasonably include in the README.
-
-## Support
-Tell people where they can go to for help. It can be any combination of an issue tracker, a chat room, an email address, etc.
-
-## Roadmap
-If you have ideas for releases in the future, it is a good idea to list them in the README.
-
-## Contributing
-State if you are open to contributions and what your requirements are for accepting them.
-
-For people who want to make changes to your project, it's helpful to have some documentation on how to get started. Perhaps there is a script that they should run or some environment variables that they need to set. Make these steps explicit. These instructions could also be useful to your future self.
-
-You can also document commands to lint the code or run tests. These steps help to ensure high code quality and reduce the likelihood that the changes inadvertently break something. Having instructions for running tests is especially helpful if it requires external setup, such as starting a Selenium server for testing in a browser.
-
-## Authors and acknowledgment
-Show your appreciation to those who have contributed to the project.
-
-## License
-For open source projects, say how it is licensed.
-
-## Project status
-If you have run out of energy or time for your project, put a note at the top of the README saying that development has slowed down or stopped completely. Someone may choose to fork your project or volunteer to step in as a maintainer or owner, allowing your project to keep going. You can also make an explicit request for maintainers.
