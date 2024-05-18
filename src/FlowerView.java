@@ -5,9 +5,13 @@ import java.util.Scanner;
 
 public class FlowerView {
     private Scanner scanner;
+    private Validator validator;
+    private String path;
 
     public FlowerView() {
         this.scanner = new Scanner(System.in);
+        this.validator = new Validator();
+        path = getFilenameToLoad();
     }
 
     public void printMenu() {
@@ -35,26 +39,82 @@ public class FlowerView {
     }
 
     public Flower getNewFlowerDetails() {
-        System.out.println("Enter flower details:");
+        while (true) {
+            try {
+                System.out.println("Enter flower details:");
+
+                System.out.print("ID: ");
+                int id = scanner.nextInt();
+                validator.validateId(id);
+                scanner.nextLine(); // consume newline
+
+                System.out.print("Name: ");
+                String name = scanner.nextLine();
+                validator.validateNoCommas(name, "Name");
+
+                System.out.print("Type: ");
+                String type = scanner.nextLine();
+                validator.validateNoCommas(type, "Type");
+
+                System.out.print("Kind: ");
+                String kind = scanner.nextLine();
+                validator.validateNoCommas(kind, "Kind");
+
+                System.out.print("Subtype: ");
+                String subtype = scanner.nextLine();
+                validator.validateNoCommas(subtype, "Subtype");
+
+                System.out.print("Price: ");
+                double price = scanner.nextDouble();
+                validator.validatePositiveFloat(price, "Price");
+
+                System.out.print("Quantity: ");
+                int quantity = scanner.nextInt();
+                validator.validatePositiveInt(quantity, "Quantity");
+
+                scanner.nextLine(); // consume newline
+                System.out.print("Blooms (true/false): ");
+                String bloomsInput = scanner.nextLine();
+                validator.validateBoolean(bloomsInput, "Blooms");
+                boolean isBlooming = Boolean.parseBoolean(bloomsInput);
+
+                return new Flower(id, name, type, kind, subtype, price, quantity, isBlooming);
+            } catch (ValidationException e) {
+                System.out.println("Error: " + e.getMessage());
+                System.out.println("Please press 'Enter' to try again.");
+                scanner.nextLine(); // consume any remaining input
+            }
+        }
+        /*System.out.println("Enter flower details:");
         System.out.print("ID: ");
         int id = scanner.nextInt();
+        // validate ID it must me unice
         scanner.nextLine();
         System.out.print("Name: ");
         String name = scanner.nextLine();
+        // cant be separated by commas
         System.out.print("Type: ");
         String type = scanner.nextLine();
+        // cant be separated by commas
         System.out.print("Kind: ");
         String kind = scanner.nextLine();
+        // cant be separated by commas
         System.out.print("Subtype: ");
         String subtype = scanner.nextLine();
+        // cant be separated by commas
         System.out.print("Price: ");
         double price = scanner.nextDouble();
+        // must be valid float
         System.out.print("Quantity: ");
         int quantity = scanner.nextInt();
+        // must be valid int
         System.out.print("Blooms: ");
         boolean isBlooming = scanner.nextBoolean();
+        // must be "true" or "false"
 
-        return new Flower(id, name, type, kind, subtype, price, quantity, isBlooming);
+        // ask to enter attribute again if it is not valid
+
+        return new Flower(id, name, type, kind, subtype, price, quantity, isBlooming);*/
     }
 
     public void printFlowerAdded() {
@@ -100,5 +160,13 @@ public class FlowerView {
 
     public void printDataLoaded() {
         System.out.println("Data loaded successfully.");
+    }
+
+    public String getPath() {
+        return path;
+    }
+
+    public void setPath(String path) {
+        this.path = path;
     }
 }

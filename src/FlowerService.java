@@ -4,12 +4,13 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class FlowerService {
-    private String filename;
+    //private String filename;
     private FlowerDAO flowerDAO;
     private final String houseplant = "Кімнатна";
 
-    public FlowerService(String filename) {
-        flowerDAO = new FlowerDAO(filename);
+    public FlowerService(String path) {
+        flowerDAO = new FlowerDAO(path);
+        loadData();
     }
 
     public List<Flower> getAllFlowers() {

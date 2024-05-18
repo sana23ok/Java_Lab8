@@ -9,9 +9,9 @@ public class FlowerDAO {
     private String path;
 
     public FlowerDAO(String path) {
-        this.path = path;
         flowers = new ArrayList<>();
-        loadFlowers();
+        this.path = path;
+        //loadFlowers();
     }
 
     private Flower parseFlowerFromCSV(String csvLine) {
@@ -40,7 +40,7 @@ public class FlowerDAO {
                 //System.out.println(flower);
             }
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("File is not found!");
         }
     }
 
@@ -70,6 +70,15 @@ public class FlowerDAO {
             throw new RuntimeException(e);
         }
     }
+
+    public String getPath() {
+        return path;
+    }
+
+    public void setPath(String path) {
+        this.path = path;
+    }
+
 
     /* public void saveToFile(String... filePath) {
         String savePath = filePath.length > 0 ? filePath[0] : this.path;
