@@ -1,48 +1,67 @@
 package src;
+import java.util.InputMismatchException;
+import java.util.Scanner;
 
-import java.util.HashSet;
-import java.util.Set;
-import java.util.regex.Pattern;
 
-class ValidationException extends Exception {
-    public ValidationException(String message) {
+class InvalidFlowerDetailsException extends InputMismatchException  {
+    public InvalidFlowerDetailsException(String message) {
         super(message);
     }
 }
 
 
 public class Validator {
-    private Set<Integer> ids = new HashSet<>();
-    private static final Pattern NO_COMMAS_PATTERN = Pattern.compile("^[^,]+$");
 
-    public void validateId(int id) throws ValidationException {
-        if (ids.contains(id)) {
-            throw new ValidationException("ID must be unique.");
-        }
-        ids.add(id);
+    private Scanner scanner;
+
+    public Validator(Scanner scanner) {
+        this.scanner = scanner;
     }
 
-    public void validateNoCommas(String input, String fieldName) throws ValidationException {
-        if (!NO_COMMAS_PATTERN.matcher(input).matches()) {
-            throw new ValidationException(fieldName + " cannot contain commas.");
-        }
-    }
-
-    public void validatePositiveFloat(double value, String fieldName) throws ValidationException {
-        if (value <= 0) {
-            throw new ValidationException(fieldName + " must be a positive number.");
-        }
-    }
-
-    public void validatePositiveInt(int value, String fieldName) throws ValidationException {
-        if (value <= 0) {
-            throw new ValidationException(fieldName + " must be a positive integer.");
+    public int getValidIntegerInput(String prompt, boolean positiveOnly) {
+        while (true) {
+            System.out.print(prompt);
+            try {
+                int input = scanner.nextInt();
+                scanner.nextLine(); // Consume newline character
+                if (positiveOnly && input <= 0) {
+                    throw new InvalidFlowerDetailsException("The ID must be a positive integer.");
+                }
+                return input;
+            } catch (InputMismatchException e) {
+                System.err.println("Invalid input. Please enter an integer.");
+                scanner.nextLine(); // Clear the invalid input from the scanner buffer
+            }
         }
     }
 
-    public void validateBoolean(String value, String fieldName) throws ValidationException {
-        if (!"true".equalsIgnoreCase(value) && !"false".equalsIgnoreCase(value)) {
-            throw new ValidationException(fieldName + " must be 'true' or 'false'.");
+    public double getValidDoubleInput(String prompt) {
+        while (true) {
+            System.out.print(prompt);
+            try {
+                double input = scanner.nextDouble();
+                scanner.nextLine(); // Consume newline character
+                return input;
+            } catch (InputMismatchException e) {
+                System.err.println("Invalid input. Please enter a double value (e.g., 12.34).");
+                scanner.nextLine(); // Clear the invalid input from the scanner buffer
+            }
+        }
+    }
+
+    public String getValidStringInput(String prompt) {
+        System.out.print(prompt);
+        return scanner.nextLine();
+    }
+
+    public boolean getBooleanInput(String prompt) {
+        while (true) {
+            System.out.print(prompt);
+            String input = scanner.nextLine().trim().toLowerCase();
+            if (input.equals("true") || input.equals("false")) {
+                return Boolean.parseBoolean(input);
+            }
+            System.out.println("Invalid input. Please enter 'true' or 'false'.");
         }
     }
 }

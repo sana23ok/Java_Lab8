@@ -1,5 +1,6 @@
 package src;
-
+import java.io.BufferedWriter;
+import java.io.File;
 import java.util.List;
 import java.util.Scanner;
 
@@ -9,8 +10,8 @@ public class FlowerView {
     private String path;
 
     public FlowerView() {
-        this.scanner = new Scanner(System.in);
-        this.validator = new Validator();
+        scanner = new Scanner(System.in);
+        validator = new Validator(scanner);
         path = getFilenameToLoad();
     }
 
@@ -43,78 +44,40 @@ public class FlowerView {
             try {
                 System.out.println("Enter flower details:");
 
-                System.out.print("ID: ");
-                int id = scanner.nextInt();
-                validator.validateId(id);
-                scanner.nextLine(); // consume newline
+                // Flower ID (positive integer)
+                int id = validator.getValidIntegerInput("Flower ID (positive integer): ", true);
 
-                System.out.print("Name: ");
-                String name = scanner.nextLine();
-                validator.validateNoCommas(name, "Name");
+                // Flower name
+                String name = validator.getValidStringInput("Flower name: ");
 
-                System.out.print("Type: ");
-                String type = scanner.nextLine();
-                validator.validateNoCommas(type, "Type");
+                // Flower type
+                String type = validator.getValidStringInput("Flower type: ");
 
-                System.out.print("Kind: ");
-                String kind = scanner.nextLine();
-                validator.validateNoCommas(kind, "Kind");
+                // Flower kind
+                String kind = validator.getValidStringInput("Flower kind: ");
 
-                System.out.print("Subtype: ");
-                String subtype = scanner.nextLine();
-                validator.validateNoCommas(subtype, "Subtype");
+                // Flower subtype (optional)
+                String subtype = validator.getValidStringInput("Flower subtype (optional): ");
 
-                System.out.print("Price: ");
-                double price = scanner.nextDouble();
-                validator.validatePositiveFloat(price, "Price");
+                // Flower price (double)
+                double price = validator.getValidDoubleInput("Flower price (double): ");
 
-                System.out.print("Quantity: ");
-                int quantity = scanner.nextInt();
-                validator.validatePositiveInt(quantity, "Quantity");
+                // Flower quantity (integer)
+                int quantity = validator.getValidIntegerInput("Flower quantity (integer): ", false);
 
-                scanner.nextLine(); // consume newline
-                System.out.print("Blooms (true/false): ");
-                String bloomsInput = scanner.nextLine();
-                validator.validateBoolean(bloomsInput, "Blooms");
-                boolean isBlooming = Boolean.parseBoolean(bloomsInput);
+                // Blooms (true/false)
+                boolean isBlooming = validator.getBooleanInput("Blooms (true/false): ");
 
                 return new Flower(id, name, type, kind, subtype, price, quantity, isBlooming);
-            } catch (ValidationException e) {
-                System.out.println("Error: " + e.getMessage());
-                System.out.println("Please press 'Enter' to try again.");
-                scanner.nextLine(); // consume any remaining input
+
+            } catch (InvalidFlowerDetailsException e) {
+                System.err.println("Error: " + e.getMessage());
+                System.out.println("Please try again with valid details.");
+            } catch (Exception e) {
+                System.err.println("An unexpected error occurred. Please enter the values in the correct format.");
+                scanner.nextLine(); // Clear the invalid input from the scanner buffer
             }
         }
-        /*System.out.println("Enter flower details:");
-        System.out.print("ID: ");
-        int id = scanner.nextInt();
-        // validate ID it must me unice
-        scanner.nextLine();
-        System.out.print("Name: ");
-        String name = scanner.nextLine();
-        // cant be separated by commas
-        System.out.print("Type: ");
-        String type = scanner.nextLine();
-        // cant be separated by commas
-        System.out.print("Kind: ");
-        String kind = scanner.nextLine();
-        // cant be separated by commas
-        System.out.print("Subtype: ");
-        String subtype = scanner.nextLine();
-        // cant be separated by commas
-        System.out.print("Price: ");
-        double price = scanner.nextDouble();
-        // must be valid float
-        System.out.print("Quantity: ");
-        int quantity = scanner.nextInt();
-        // must be valid int
-        System.out.print("Blooms: ");
-        boolean isBlooming = scanner.nextBoolean();
-        // must be "true" or "false"
-
-        // ask to enter attribute again if it is not valid
-
-        return new Flower(id, name, type, kind, subtype, price, quantity, isBlooming);*/
     }
 
     public void printFlowerAdded() {
@@ -126,12 +89,12 @@ public class FlowerView {
             System.out.println("No flowering houseplants found.");
         } else {
             System.out.println("Flowering Houseplants:");
-            flowers.forEach(System.out::println);
+            processResult(flowers);
         }
     }
 
     public String getFlowerName() {
-        System.out.print("Enter flower name: ");
+        System.out.print("Enter flower name (example: 'flowers.csv'): ");
         return scanner.nextLine();
     }
 
@@ -140,7 +103,7 @@ public class FlowerView {
             System.out.println("No subtypes found for the specified flower.");
         } else {
             System.out.println("Subtypes of the specified flower:");
-            flowers.forEach(System.out::println);
+            processResult(flowers);
         }
     }
 
@@ -149,13 +112,22 @@ public class FlowerView {
         return scanner.nextLine();
     }
 
-    public void printDataSaved() {
-        System.out.println("Data saved successfully.");
+    public String getFilenameToLoad() {
+        String filename;
+        do {
+            System.out.print("Enter filename to load data: ");
+            filename = scanner.nextLine();
+            File file = new File(filename);
+            if (!file.exists()) {
+                System.out.println("The file does not exist. Please enter a valid filename.");
+            }
+        } while (!new File(filename).exists());
+
+        return filename;
     }
 
-    public String getFilenameToLoad() {
-        System.out.print("Enter filename to load data: ");
-        return scanner.nextLine();
+    public void printDataSaved() {
+        System.out.println("Data saved successfully.");
     }
 
     public void printDataLoaded() {
@@ -166,7 +138,17 @@ public class FlowerView {
         return path;
     }
 
-    public void setPath(String path) {
-        this.path = path;
+    public void processResult(List<Flower> flowers) {
+        flowers.forEach(System.out::println);
+
+        System.out.print("Do you want to save the results to a file? (yes/no): ");
+        String response = scanner.nextLine();
+        if ("yes".equalsIgnoreCase(response)) {
+            String filename = getFilenameToSave();
+            FlowerService fs = new FlowerService();
+            fs.saveData(filename, flowers);
+        }
     }
 }
+
+

@@ -47,6 +47,7 @@ public class FlowerController {
                     flowerView.printInvalidChoice();
             }
         }
+
     }
 
     private void displayAllFlowers() {
@@ -72,14 +73,21 @@ public class FlowerController {
     }
 
     private void saveData() {
-//        String filename = flowerView.getFilenameToSave();
-        flowerService.saveData();
+        String filename = flowerView.getFilenameToSave();
+        flowerService.saveData(filename);
+        flowerView.printDataSaved();
+    }
+
+    private void saveData(List<Flower> flowers) {
+        String filename = flowerView.getFilenameToSave();
+        flowerService.saveData(filename, flowers);
         flowerView.printDataSaved();
     }
 
     private void loadData() {
-//        String filename = flowerView.getFilenameToLoad();
-        flowerService.loadData();
+        String filename = flowerView.getFilenameToLoad();
+        flowerService.loadData(filename);
         flowerView.printDataLoaded();
     }
+
 }

@@ -11,7 +11,11 @@ public class FlowerDAO {
     public FlowerDAO(String path) {
         flowers = new ArrayList<>();
         this.path = path;
-        //loadFlowers();
+//        loadFlowers(path);
+    }
+
+    public FlowerDAO() {
+        flowers = new ArrayList<>();
     }
 
     private Flower parseFlowerFromCSV(String csvLine) {
@@ -29,7 +33,8 @@ public class FlowerDAO {
         return new Flower(id, name, type, species, subspecies, price, quantity, blooms);
     }
 
-    void loadFlowers() {
+    void loadFlowers(String path) {
+        flowers.clear(); // Clear the existing list before loading new data
         try (BufferedReader br = new BufferedReader(new FileReader(path))) {
             // Пропускаємо заголовок CSV
             br.readLine();
@@ -37,7 +42,6 @@ public class FlowerDAO {
             while ((line = br.readLine()) != null) {
                 Flower flower = parseFlowerFromCSV(line);
                 flowers.add(flower);
-                //System.out.println(flower);
             }
         } catch (IOException e) {
             throw new RuntimeException("File is not found!");
@@ -53,7 +57,7 @@ public class FlowerDAO {
     }
 
     // Метод для збереження даних у файл
-    public void saveToFile() {
+    public void saveToFile(String path) {
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(path))) {
             // Write header row
             bw.write("ID,Name,Type,Species,Subspecies,Price,Quantity,Blooms\n");
@@ -71,33 +75,25 @@ public class FlowerDAO {
         }
     }
 
-    public String getPath() {
-        return path;
-    }
-
-    public void setPath(String path) {
-        this.path = path;
-    }
-
-
-    /* public void saveToFile(String... filePath) {
-        String savePath = filePath.length > 0 ? filePath[0] : this.path;
-        try (BufferedWriter bw = new BufferedWriter(new FileWriter(savePath))) {
+    // Method to save data to a file
+    public void saveToFile(List<Flower> flowers, String filename) {
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(filename))) {
             // Write header row
             bw.write("ID,Name,Type,Species,Subspecies,Price,Quantity,Blooms\n");
 
             // Write each flower data
             for (Flower flower : flowers) {
-                String flowerData = String.format("%d,%s,%s,%s,%s,%f,%d,%s\n",
+                String flowerData = String.format("%d,%s,%s,%s,%s,%.2f,%d,%s\n",
                         flower.getID(), flower.getName(), flower.getType(), flower.getSpecies(),
                         flower.getSubspecies(), flower.getPrice(), flower.getQuantity(), flower.isBlooms());
                 bw.write(flowerData);
             }
             bw.flush(); // Ensures data is written to the file
+            System.out.println("Data saved to file: " + filename);
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("Error saving data to file: " + filename, e);
         }
     }
-  */
+
 }
 

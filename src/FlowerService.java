@@ -1,5 +1,4 @@
 package src;
-
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -10,7 +9,11 @@ public class FlowerService {
 
     public FlowerService(String path) {
         flowerDAO = new FlowerDAO(path);
-        loadData();
+        loadData(path);
+    }
+
+    public FlowerService() {
+        flowerDAO = new FlowerDAO();
     }
 
     public List<Flower> getAllFlowers() {
@@ -18,7 +21,17 @@ public class FlowerService {
     }
 
     public void addFlower(Flower flower) {
-        flowerDAO.addFlower(flower);
+        List<Flower> flowers = flowerDAO.getAllFlowers();
+
+        boolean isDuplicate = flowers.stream().anyMatch(f -> f.getID() == flower.getID());
+
+        if (!isDuplicate) {
+            flowerDAO.addFlower(flower);
+            System.out.println("Flower added successfully.");
+        } else {
+            System.out.println("Error: A flower with the same ID already exists.");
+        }
+
     }
 
     public List<Flower> getFloweringHouseplants() {
@@ -33,11 +46,15 @@ public class FlowerService {
                 .collect(Collectors.toList());
     }
 
-    public void saveData() {
-        flowerDAO.saveToFile();
+    public void saveData(String fn) {
+        flowerDAO.saveToFile(fn);
     }
 
-    public void loadData() {
-        flowerDAO.loadFlowers();
+    public void saveData(String fn, List<Flower> flowers) {
+        flowerDAO.saveToFile(flowers, fn);
+    }
+
+    public void loadData(String fn) {
+        flowerDAO.loadFlowers(fn);
     }
 }
