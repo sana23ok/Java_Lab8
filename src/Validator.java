@@ -1,6 +1,8 @@
 package src;
+import java.io.IOException;
 import java.util.InputMismatchException;
 import java.util.Scanner;
+
 
 
 class InvalidFlowerDetailsException extends InputMismatchException  {
@@ -43,7 +45,7 @@ public class Validator {
                 scanner.nextLine(); // Consume newline character
                 return input;
             } catch (InputMismatchException e) {
-                System.err.println("Invalid input. Please enter a double value (e.g., 12.34).");
+                System.err.println("Invalid input. Please enter a double value (e.g., 12,34).");
                 scanner.nextLine(); // Clear the invalid input from the scanner buffer
             }
         }

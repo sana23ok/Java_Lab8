@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE log SYSTEM "logger.dtd">
+<log>
+<record>
+  <date>2024-05-27T22:09:54.100981700Z</date>
+  <millis>1716847794100</millis>
+  <nanos>981700</nanos>
+  <sequence>1</sequence>
+  <logger>src.FlowerView</logger>
+  <level>INFO</level>
+  <class>src.FlowerView</class>
+  <method>printMenu</method>
+  <thread>1</thread>
+  <message>User displayed menu</message>
+</record>
+<record>
+  <date>2024-05-27T22:09:57.846700600Z</date>
+  <millis>1716847797846</millis>
+  <nanos>700600</nanos>
+  <sequence>2</sequence>
+  <logger>src.FlowerView</logger>
+  <level>INFO</level>
+  <class>src.FlowerView</class>
+  <method>printMenu</method>
+  <thread>1</thread>
+  <message>User displayed menu</message>
+</record>
+<record>
+  <date>2024-05-27T22:10:25.053418200Z</date>
+  <millis>1716847825053</millis>
+  <nanos>418200</nanos>
+  <sequence>3</sequence>
+  <logger>src.FlowerView</logger>
+  <level>INFO</level>
+  <class>src.FlowerView</class>
+  <method>getNewFlowerDetails</method>
+  <thread>1</thread>
+  <message>User added flower: dfsgs</message>
+</record>
+<record>
+  <date>2024-05-27T22:10:25.057420200Z</date>
+  <millis>1716847825057</millis>
+  <nanos>420200</nanos>
+  <sequence>4</sequence>
+  <logger>src.FlowerView</logger>
+  <level>INFO</level>
+  <class>src.FlowerView</class>
+  <method>printFlowerAdded</method>
+  <thread>1</thread>
+  <message>User added a new flower</message>
+</record>
+<record>
+  <date>2024-05-27T22:10:25.058421400Z</date>
+  <millis>1716847825058</millis>
+  <nanos>421400</nanos>
+  <sequence>5</sequence>
+  <logger>src.FlowerView</logger>
+  <level>INFO</level>
+  <class>src.FlowerView</class>
+  <method>printMenu</method>
+  <thread>1</thread>
+  <message>User displayed menu</message>
+</record>
+<record>
+  <date>2024-05-27T22:10:31.812837200Z</date>
+  <millis>1716847831812</millis>
+  <nanos>837200</nanos>
+  <sequence>6</sequence>
+  <logger>src.FlowerView</logger>
+  <level>INFO</level>
+  <class>src.FlowerView</class>
+  <method>getFilenameToSave</method>
+  <thread>1</thread>
+  <message>File will be saved</message>
+</record>
+<record>
+  <date>2024-05-27T22:10:36.075199300Z</date>
+  <millis>1716847836075</millis>
+  <nanos>199300</nanos>
+  <sequence>7</sequence>
+  <logger>src.FlowerView</logger>
+  <level>INFO</level>
+  <class>src.FlowerView</class>
+  <method>printDataSaved</method>
+  <thread>1</thread>
+  <message>User saved data to file</message>
+</record>
+<record>
+  <date>2024-05-27T22:10:36.076202Z</date>
+  <millis>1716847836076</millis>
+  <nanos>202000</nanos>
+  <sequence>8</sequence>
+  <logger>src.FlowerView</logger>
+  <level>INFO</level>
+  <class>src.FlowerView</class>
+  <method>printMenu</method>
+  <thread>1</thread>
+  <message>User displayed menu</message>
+</record>
+<record>
+  <date>2024-05-27T22:10:39.662826600Z</date>
+  <millis>1716847839662</millis>
+  <nanos>826600</nanos>
+  <sequence>9</sequence>
+  <logger>src.FlowerView</logger>
+  <level>INFO</level>
+  <class>src.FlowerView</class>
+  <method>processResult</method>
+  <thread>1</thread>
+  <message>Processing flower list</message>
+</record>
+<record>
+  <date>2024-05-27T22:10:45.980773800Z</date>
+  <millis>1716847845980</millis>
+  <nanos>773800</nanos>
+  <sequence>10</sequence>
+  <logger>src.FlowerView</logger>
+  <level>INFO</level>
+  <class>src.FlowerView</class>
+  <method>printMenu</method>
+  <thread>1</thread>
+  <message>User displayed menu</message>
+</record>
+</log>

@@ -27,7 +27,7 @@ public class FlowerService {
 
         if (!isDuplicate) {
             flowerDAO.addFlower(flower);
-            System.out.println("Flower added successfully.");
+            //System.out.println("Flower added successfully.");
         } else {
             System.out.println("Error: A flower with the same ID already exists.");
         }

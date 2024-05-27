@@ -88,16 +88,6 @@ public class Flower{
 
     @Override
     public String toString() {
-//        return "Flower {" +
-//                " ID =" + ID +
-//                ", name = '" + Name + '\'' +
-//                ", type = '" + Type + '\'' +
-//                ", kind = '" + Species + '\'' +
-//                ", subtype = '" + Subspecies + '\'' +
-//                ", price = " + Price +
-//                ", quantity = " + quantity +
-//                ", blooms = " + blooms + ' ' +
-//                '}';
         return String.format("| %-4d | %-15s | %-15s | %-15s | %-15s | %-6.2f | %-9d | %-7b |",
                 ID, Name, Type, Species, Subspecies, Price, quantity, blooms);
     }
